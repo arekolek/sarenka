@@ -9,7 +9,7 @@
 	<name>sarenka</name>
 
 	<properties>
-		<platform.version>4.0.1.2</platform.version>
+		<platform.version>4.1.1.4</platform.version>
 	</properties>
 
 	<dependencies>
@@ -23,8 +23,29 @@
 			<groupId>com.orm</groupId>
 			<artifactId>sugar</artifactId>
 			<version>1.1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/sugar-1.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.pivotallabs</groupId>
+			<artifactId>robolectric</artifactId>
+			<version>1.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>annotations</artifactId>
+			<version>4.1.1.4</version>
 		</dependency>
 	</dependencies>
 
