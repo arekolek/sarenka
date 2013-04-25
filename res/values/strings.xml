@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">Sarenka</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
     <string name="menu_add_alarm">Add alarm</string>
     <string name="done">Done</string>
     <string name="alarm_enabled">Enabled</string>
