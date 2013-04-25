@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_alarm_enabled"
+        android:actionViewClass="android.widget.Switch"
+        android:showAsAction="always"
+        android:title="@string/alarm_enabled"/>
+    <item
+        android:id="@+id/menu_discard"
+        android:showAsAction="never"
+        android:title="@string/discard"/>
+
+</menu>
