@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -24,6 +25,7 @@ public class AlarmPrefs {
     public static final String DAYS = "alarm_days";
     public static final String LABEL = "alarm_label";
     public static final String SOUND = "alarm_sound";
+    public static final String ENABLED = "alarm_enabled";
 
     private SharedPreferences prefs;
     private Context context;
@@ -41,12 +43,28 @@ public class AlarmPrefs {
         return getTime().getMinute();
     }
 
-    public Integer getDays() {
+    /**
+     * Returns a list of days the alarm should be active on. See Calendar.DAY_OF_WEEK
+     */
+    public SortedSet<Integer> getDays() {
         SortedSet<String> days = new TreeSet<String>(prefs.getStringSet(DAYS, null));
+        TreeSet<Integer> result = new TreeSet<Integer>();
         for (String day : days) {
-            Integer.parseInt(day);
+            result.add(Integer.parseInt(day));
         }
-        return null;
+        return result;
+    }
+
+    public String getLabel() {
+        return prefs.getString(LABEL, null);
+    }
+
+    public String getSound() {
+        return prefs.getString(SOUND, null);
+    }
+
+    public Boolean isEnabled() {
+        return prefs.getBoolean(ENABLED, true);
     }
 
     public void setSummary(Preference preference) {
@@ -68,7 +86,8 @@ public class AlarmPrefs {
             return prefs.getString(HOUR, "");
         }
         if (key.equals(DAYS)) {
-            Set<String> days = prefs.getStringSet(key, null);
+            DayCalendar calendar = new DayCalendar();
+            List<String> days = calendar.convertDaysToNames(getDays());
             return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
         }
         if (key.equals(LABEL)) {
@@ -86,4 +105,18 @@ public class AlarmPrefs {
         return "";
     }
 
+    public void fromAlarm(Alarm alarm) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(HOUR, alarm.getFormattedTime(context));
+        Set<String> days = new TreeSet<String>();
+        Set<Integer> dayNames = alarm.getDays();
+        for (Integer day : dayNames) {
+            days.add(String.valueOf(day));
+        }
+        editor.putStringSet(DAYS, days);
+        editor.putString(LABEL, alarm.getLabel());
+        editor.putString(SOUND, alarm.getSound());
+        editor.putBoolean(ENABLED, alarm.isEnabled());
+        editor.apply();
+    }
 }

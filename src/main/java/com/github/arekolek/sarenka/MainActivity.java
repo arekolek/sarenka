@@ -2,11 +2,9 @@
 package com.github.arekolek.sarenka;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.github.arekolek.sarenka.prefs.SettingsActivity;
 
 public class MainActivity extends Activity {
@@ -28,7 +26,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_add_alarm) {
             // startActivity(new Intent(AlarmClock.ACTION_SET_ALARM));
-            startActivity(new Intent(this, SettingsActivity.class));
+            SettingsActivity.startActivity(this);
             return true;
         }
         return super.onOptionsItemSelected(item);

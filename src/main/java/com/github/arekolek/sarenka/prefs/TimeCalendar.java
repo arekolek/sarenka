@@ -10,11 +10,11 @@ public class TimeCalendar {
 
     private Calendar calendar = Calendar.getInstance();
 
-    public void setHour(Integer hour) {
+    public void setHour(int hour) {
         calendar.set(Calendar.HOUR_OF_DAY, hour);
     }
 
-    public void setMinute(Integer minute) {
+    public void setMinute(int minute) {
         calendar.set(Calendar.MINUTE, minute);
     }
 

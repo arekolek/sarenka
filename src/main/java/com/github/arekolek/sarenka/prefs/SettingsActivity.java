@@ -3,22 +3,21 @@ package com.github.arekolek.sarenka.prefs;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.Switch;
-
 import com.github.arekolek.sarenka.R;
 
 public class SettingsActivity extends Activity {
+    public static final String EXTRA_ALARM_ID = "alarm_id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +31,21 @@ public class SettingsActivity extends Activity {
                 .replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
+    public static void startActivity(Context context, long alarmId) {
+        Intent intent = new Intent(context, SettingsActivity.class);
+        intent.putExtra(EXTRA_ALARM_ID, alarmId);
+        context.startActivity(intent);
+    }
+
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, SettingsActivity.class));
+    }
+
     public static class SettingsFragment extends PreferenceFragment implements
             OnSharedPreferenceChangeListener {
         private AlarmSwitcher alarmSwitcher;
         private AlarmPrefs prefs;
+        private Alarm alarm;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,11 @@ public class SettingsActivity extends Activity {
             setHasOptionsMenu(true);
 
             showDoneActionButton();
+
+            long alarmId = getActivity().getIntent().getLongExtra(EXTRA_ALARM_ID, -1);
+            if (alarmId > -1) {
+                load(alarmId);
+            }
 
             updateSummaries();
         }
@@ -78,12 +93,24 @@ public class SettingsActivity extends Activity {
             actionBar.setCustomView(customActionBarView);
         }
 
+        private void load(long alarmId) {
+            alarm = Alarm.findById(Alarm.class, alarmId);
+            prefs.fromAlarm(alarm);
+        }
+
         protected void save() {
-            Alarm alarm = new Alarm(getActivity());
+            if (alarm == null) {
+                alarm = new Alarm(getActivity());
+            }
 
             alarm.hour = prefs.getHour();
             alarm.minute = prefs.getMinute();
-            alarm.days = prefs.getDays();
+            alarm.setDays(prefs.getDays());
+            alarm.label = prefs.getLabel();
+            alarm.sound = prefs.getSound();
+            alarm.enabled = prefs.isEnabled();
+
+            alarm.save();
 
             getActivity().finish();
         }

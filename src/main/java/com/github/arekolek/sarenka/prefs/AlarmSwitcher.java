@@ -10,7 +10,6 @@ import android.widget.Switch;
 
 public class AlarmSwitcher implements OnCheckedChangeListener {
 
-    private static final String ALARM_ENABLED = "alarm_enabled";
     private Switch mSwitch;
     private SharedPreferences prefs;
 
@@ -20,7 +19,7 @@ public class AlarmSwitcher implements OnCheckedChangeListener {
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        prefs.edit().putBoolean(ALARM_ENABLED, isChecked).commit();
+        prefs.edit().putBoolean(AlarmPrefs.ENABLED, isChecked).commit();
     }
 
     public void onResume() {
@@ -49,7 +48,7 @@ public class AlarmSwitcher implements OnCheckedChangeListener {
     }
 
     public boolean isEnabled() {
-        return prefs.getBoolean(ALARM_ENABLED, true);
+        return prefs.getBoolean(AlarmPrefs.ENABLED, true);
     }
 
 }
