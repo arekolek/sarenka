@@ -1,5 +1,5 @@
 
-package com.github.arekolek.sarenka.prefs;
+package com.github.arekolek.sarenka.edit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,7 +19,7 @@ public class AlarmSwitcher implements OnCheckedChangeListener {
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        prefs.edit().putBoolean(AlarmPrefs.ENABLED, isChecked).commit();
+        prefs.edit().putBoolean(AlarmSharedPreferences.ENABLED, isChecked).commit();
     }
 
     public void onResume() {
@@ -48,7 +48,7 @@ public class AlarmSwitcher implements OnCheckedChangeListener {
     }
 
     public boolean isEnabled() {
-        return prefs.getBoolean(AlarmPrefs.ENABLED, true);
+        return prefs.getBoolean(AlarmSharedPreferences.ENABLED, true);
     }
 
 }

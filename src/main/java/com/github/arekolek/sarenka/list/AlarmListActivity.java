@@ -1,13 +1,14 @@
 
-package com.github.arekolek.sarenka;
+package com.github.arekolek.sarenka.list;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.github.arekolek.sarenka.prefs.SettingsActivity;
+import com.github.arekolek.sarenka.R;
+import com.github.arekolek.sarenka.edit.AlarmEditActivity;
 
-public class MainActivity extends Activity {
+public class AlarmListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_add_alarm) {
             // startActivity(new Intent(AlarmClock.ACTION_SET_ALARM));
-            SettingsActivity.startActivity(this);
+            AlarmEditActivity.startActivity(this);
             return true;
         }
         return super.onOptionsItemSelected(item);

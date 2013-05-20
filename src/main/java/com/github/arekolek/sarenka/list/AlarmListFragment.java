@@ -4,10 +4,10 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import com.github.arekolek.sarenka.prefs.Alarm;
-import com.github.arekolek.sarenka.prefs.SettingsActivity;
+import com.github.arekolek.sarenka.edit.Alarm;
+import com.github.arekolek.sarenka.edit.AlarmEditActivity;
 
-public class AlarmsListFragment extends ListFragment {
+public class AlarmListFragment extends ListFragment {
     private AlarmAdapter adapter;
 
     @Override
@@ -32,6 +32,6 @@ public class AlarmsListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        SettingsActivity.startActivity(getActivity(), id);
+        AlarmEditActivity.startActivity(getActivity(), id);
     }
 }

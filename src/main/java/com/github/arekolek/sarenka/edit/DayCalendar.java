@@ -1,4 +1,4 @@
-package com.github.arekolek.sarenka.prefs;
+package com.github.arekolek.sarenka.edit;
 
 import android.text.format.DateFormat;
 

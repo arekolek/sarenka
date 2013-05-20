@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.arekolek.sarenka"
-    android:versionCode="1"
-    android:versionName="0.1" >
+          package="com.github.arekolek.sarenka"
+          android:versionCode="1"
+          android:versionName="0.1">
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+            android:minSdkVersion="14"
+            android:targetSdkVersion="17"/>
 
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
-        android:name="com.orm.SugarApp"
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:name="com.orm.SugarApp"
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
         <activity
-            android:name="com.github.arekolek.sarenka.prefs.SettingsActivity"
-            android:permission="com.android.alarm.permission.SET_ALARM" >
+                android:name=".edit.AlarmEditActivity"
+                android:permission="com.android.alarm.permission.SET_ALARM">
             <intent-filter>
-                <action android:name="android.intent.action.SET_ALARM" />
+                <action android:name="android.intent.action.SET_ALARM"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.github.arekolek.sarenka.MainActivity" >
+        <activity android:name=".list.AlarmListActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <meta-data
-            android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.github.arekolek.sarenka.prefs" />
+                android:name="DOMAIN_PACKAGE_NAME"
+                android:value="com.github.arekolek.sarenka.prefs"/>
     </application>
 
 </manifest>

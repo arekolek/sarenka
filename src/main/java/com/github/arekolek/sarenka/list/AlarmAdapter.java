@@ -9,7 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.github.arekolek.sarenka.R;
-import com.github.arekolek.sarenka.prefs.Alarm;
+import com.github.arekolek.sarenka.edit.Alarm;
 
 import java.util.List;
 

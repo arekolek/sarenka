@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.github.arekolek.sarenka.prefs.TimePickerPreference
-        android:defaultValue="12:00"
-        android:dialogLayout="@layout/dialog_timepicker"
-        android:key="alarm_hour"
-        android:title="Set hour" />
+    <com.github.arekolek.sarenka.edit.TimePickerPreference
+            android:defaultValue="12:00"
+            android:dialogLayout="@layout/dialog_timepicker"
+            android:key="alarm_hour"
+            android:title="Set hour"/>
 
     <MultiSelectListPreference
-        android:defaultValue="@array/pref_alarm_repeat_days_default"
-        android:entries="@array/pref_alarm_repeat_days_titles"
-        android:entryValues="@array/pref_alarm_repeat_days_values"
-        android:key="alarm_days"
-        android:title="Repeat" />
+            android:defaultValue="@array/pref_alarm_repeat_days_default"
+            android:entries="@array/pref_alarm_repeat_days_titles"
+            android:entryValues="@array/pref_alarm_repeat_days_values"
+            android:key="alarm_days"
+            android:title="Repeat"/>
 
     <EditTextPreference
-        android:dialogTitle="Describe this alarm"
-        android:key="alarm_label"
-        android:title="Label" />
+            android:dialogTitle="Describe this alarm"
+            android:key="alarm_label"
+            android:title="Label"/>
 
     <RingtonePreference
-        android:key="alarm_sound"
-        android:ringtoneType="alarm"
-        android:showDefault="true"
-        android:showSilent="true"
-        android:title="Sound" />
+            android:key="alarm_sound"
+            android:ringtoneType="alarm"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:title="Sound"/>
 
 </PreferenceScreen>

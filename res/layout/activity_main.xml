@@ -5,7 +5,7 @@
                 tools:context=".MainActivity">
 
     <fragment
-            class="com.github.arekolek.sarenka.list.AlarmsListFragment"
+            class="com.github.arekolek.sarenka.list.AlarmListFragment"
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
