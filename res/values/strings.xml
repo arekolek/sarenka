@@ -7,4 +7,8 @@
     <string name="alarm_enabled">Enabled</string>
     <string name="discard">Discard</string>
 
+    <!-- A description for the DeskClock alarm sound playback service.
+         [CHAR LIMIT=NONE] -->
+    <string name="alarm_klaxon_service_desc">Sound playback service for alarms set in Sarenka.</string>
+
 </resources>

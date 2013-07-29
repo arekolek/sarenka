@@ -4,8 +4,8 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import com.github.arekolek.sarenka.edit.Alarm;
 import com.github.arekolek.sarenka.edit.AlarmEditActivity;
+import com.github.arekolek.sarenka.ring.Alarms;
 
 public class AlarmListFragment extends ListFragment {
     private AlarmAdapter adapter;
@@ -20,14 +20,14 @@ public class AlarmListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         setEmptyText("Siema sarenki!");
 
-        adapter = new AlarmAdapter(getActivity(), Alarm.listAll(Alarm.class));
+        adapter = new AlarmAdapter(getActivity(), Alarms.loadAllAlarms());
         setListAdapter(adapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        adapter.swapList(Alarm.listAll(Alarm.class));
+        adapter.swapList(Alarms.loadAllAlarms());
     }
 
     @Override

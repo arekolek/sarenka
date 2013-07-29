@@ -9,6 +9,9 @@
             android:targetSdkVersion="17"/>
 
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
 
     <application
             android:name="com.orm.SugarApp"
@@ -33,9 +36,47 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-                android:name="DOMAIN_PACKAGE_NAME"
-                android:value="com.github.arekolek.sarenka.prefs"/>
+        <receiver
+                android:name=".ring.AlarmReceiver"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.github.arekolek.sarenka.ALARM_ALERT"/>
+                <action android:name="alarm_killed"/>
+                <action android:name="cancel_snooze"/>
+            </intent-filter>
+        </receiver>
+
+        <!--
+             This activity is basically the same as AlarmAlert
+             but full-screen so that it can turn the display on.
+        -->
+        <activity
+                android:name=".ring.AlarmAlertFullScreen"
+                android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation"
+                android:excludeFromRecents="true"
+                android:launchMode="singleInstance"
+                android:screenOrientation="nosensor"
+                android:showOnLockScreen="true"
+                android:taskAffinity=""
+                android:theme="@style/AlarmAlertFullScreenTheme"/>
+
+        <!--
+             This service receives the same intent as AlarmReceiver but it does
+             not respond to the same broadcast. The AlarmReceiver will receive
+             the alert broadcast and will start this service with the same
+             intent. The service plays the alarm alert and vibrates the device.
+             This allows the alert to continue playing even if another activity
+             causes the AlarmAlert activity to pause.
+        -->
+        <service
+                android:name=".ring.AlarmKlaxon"
+                android:description="@string/alarm_klaxon_service_desc"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.github.arekolek.sarenka.ALARM_ALERT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

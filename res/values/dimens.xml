@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="header_font_size">24sp</dimen>
+
+    <dimen name="label_margin_big">4dp</dimen>
+    <dimen name="label_margin_small">2dp</dimen>
+
+</resources>

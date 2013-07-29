@@ -9,11 +9,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.view.*;
 import android.widget.Switch;
 import com.github.arekolek.sarenka.R;
+import com.github.arekolek.sarenka.ring.Alarms;
 
 public class AlarmEditActivity extends Activity {
     public static final String EXTRA_ALARM_ID = "alarm_id";
@@ -23,7 +23,7 @@ public class AlarmEditActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+            AlarmSharedPreferences.getPreferences(this).reset();
         }
 
         // Display the fragment as the main content.
@@ -51,21 +51,20 @@ public class AlarmEditActivity extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            // Load the preferences from an XML resource
-            addPreferencesFromResource(R.xml.pref_add_alarm);
-
+            prefs = AlarmSharedPreferences.getPreferences(getActivity());
             alarmSwitcher = new AlarmSwitcher(getActivity());
 
-            prefs = AlarmSharedPreferences.getPreferences(getActivity());
-
-            setHasOptionsMenu(true);
-
-            showDoneActionButton();
-
+            // Load the preferences from an XML resource
             long alarmId = getActivity().getIntent().getLongExtra(EXTRA_ALARM_ID, -1);
             if (alarmId > -1) {
                 load(alarmId);
             }
+
+            addPreferencesFromResource(R.xml.pref_add_alarm);
+
+            setHasOptionsMenu(true);
+
+            showDoneActionButton();
 
             updateSummaries();
         }
@@ -94,7 +93,7 @@ public class AlarmEditActivity extends Activity {
         }
 
         private void load(long alarmId) {
-            alarm = Alarm.findById(Alarm.class, alarmId);
+            alarm = Alarms.loadAlarm(alarmId);
             prefs.fromAlarm(alarm);
         }
 
@@ -110,7 +109,7 @@ public class AlarmEditActivity extends Activity {
             alarm.sound = prefs.getSound();
             alarm.enabled = prefs.isEnabled();
 
-            alarm.save();
+            Alarms.saveAlarm(getActivity(), alarm);
 
             getActivity().finish();
         }

@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.github.arekolek.sarenka.R;
 import com.github.arekolek.sarenka.edit.Alarm;
+import com.github.arekolek.sarenka.ring.Alarms;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         Alarm alarm = getItem(position);
         cache.time.setText(alarm.getFormattedTime(context));
         cache.enabled.setChecked(alarm.isEnabled());
-        cache.enabled.setOnCheckedChangeListener(new AlarmEnabler(alarm));
+        cache.enabled.setOnCheckedChangeListener(new AlarmEnabler(context, alarm));
         cache.label.setText(alarm.getFormattedLabel());
         cache.days.setText(alarm.getFormattedDays());
         return view;
@@ -73,15 +74,17 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
     private static class AlarmEnabler implements CompoundButton.OnCheckedChangeListener {
 
         private final Alarm alarm;
+        private final Context context;
 
-        public AlarmEnabler(Alarm alarm) {
+        public AlarmEnabler(Context context, Alarm alarm) {
+            this.context = context;
             this.alarm = alarm;
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             alarm.setEnabled(isChecked);
-            alarm.save();
+            Alarms.saveAlarm(context, alarm);
         }
     }
 }

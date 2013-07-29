@@ -97,6 +97,7 @@ public class AlarmSharedPreferences {
         if (key.equals(SOUND)) {
             String ringtoneUri = prefs.getString(key, null);
             if (TextUtils.isEmpty(ringtoneUri)) {
+                // TODO silent is not allowed
                 return "Silent";
             }
             Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
@@ -118,5 +119,13 @@ public class AlarmSharedPreferences {
         editor.putString(SOUND, alarm.getSound());
         editor.putBoolean(ENABLED, alarm.isEnabled());
         editor.apply();
+    }
+
+    public void reset() {
+        SharedPreferences.Editor editor = prefs.edit().clear();
+        TimeCalendar calendar = new TimeCalendar();
+        editor.putString(HOUR, calendar.getTimeString(context));
+        editor.putString(SOUND, "content://settings/system/alarm_alert");
+        editor.commit();
     }
 }
