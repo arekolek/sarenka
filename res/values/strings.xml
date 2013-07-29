@@ -12,4 +12,36 @@
     <string name="alarm_klaxon_service_desc">Sound playback service for alarms set in Sarenka.</string>
     <string name="delete">Delete</string>
 
+
+    <!-- Alarm confirmation toast: Describes how long from now until
+        alarm fires -->
+    <string-array name="alarm_set">
+        <item>Alarm set for less than 1 minute from now.</item>
+        <item>Alarm set for %1$s from now.</item>
+        <item>Alarm set for %2$s from now.</item>
+        <item>Alarm set for %1$s and %2$s from now.</item>
+        <item>Alarm set for %3$s from now.</item>
+        <item>Alarm set for %1$s and %3$s from now.</item>
+        <item>Alarm set for %2$s and %3$s from now.</item>
+        <item>Alarm set for %1$s, %2$s, and %3$s from now.</item>
+    </string-array>
+
+    <!-- Alarm confirmation toast: singular day -->
+    <string name="day">"1 day"</string>
+
+    <!-- Alarm confirmation toast: plural days -->
+    <string name="days">"%s days"</string>
+
+    <!-- Alarm confirmation toast: singular hour -->
+    <string name="hour">1 hour</string>
+
+    <!-- Alarm confirmation toast: plural hours -->
+    <string name="hours">%s hours</string>
+
+    <!-- Alarm confirmation toast: singular minute  -->
+    <string name="minute">"1 minute"</string>
+
+    <!-- Alarm confirmation toast: plural minutes  -->
+    <string name="minutes">"%s minutes"</string>
+
 </resources>
