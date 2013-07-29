@@ -80,6 +80,12 @@ public class Alarms {
         return timeInMillis;
     }
 
+    public static void deleteAlarm(Context context, Alarm alarm) {
+        alarm.delete();
+
+        Global.setNextAlert(context);
+    }
+
     /**
      * A convenience method to enable or disable an alarm.
      *

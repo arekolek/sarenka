@@ -10,5 +10,6 @@
     <!-- A description for the DeskClock alarm sound playback service.
          [CHAR LIMIT=NONE] -->
     <string name="alarm_klaxon_service_desc">Sound playback service for alarms set in Sarenka.</string>
+    <string name="delete">Delete</string>
 
 </resources>

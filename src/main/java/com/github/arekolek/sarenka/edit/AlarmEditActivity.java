@@ -128,6 +128,10 @@ public class AlarmEditActivity extends Activity {
                 case R.id.menu_discard:
                     getActivity().finish();
                     return true;
+                case R.id.menu_delete:
+                    Alarms.deleteAlarm(getActivity(), alarm);
+                    getActivity().finish();
+                    return true;
             }
             return super.onOptionsItemSelected(item);
         }
