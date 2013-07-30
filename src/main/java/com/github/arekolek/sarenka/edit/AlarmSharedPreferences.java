@@ -85,28 +85,26 @@ public class AlarmSharedPreferences {
     }
 
     private String getSummary(String key) {
-        if (!TextUtils.isEmpty(key)) {
-            if (key.equals(HOUR)) {
-                return prefs.getString(HOUR, "");
+        if (HOUR.equals(key)) {
+            return prefs.getString(HOUR, "");
+        }
+        if (DAYS.equals(key)) {
+            DayCalendar calendar = new DayCalendar();
+            List<String> days = calendar.convertDaysToNames(getDays());
+            return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
+        }
+        if (LABEL.equals(key) || BARCODE.equals(key) || BARCODE_LABEL.equals(key)) {
+            String label = prefs.getString(key, null);
+            return TextUtils.isEmpty(label) ? "None" : label;
+        }
+        if (SOUND.equals(key)) {
+            String ringtoneUri = prefs.getString(key, null);
+            if (TextUtils.isEmpty(ringtoneUri)) {
+                // TODO silent is not allowed
+                return "Silent";
             }
-            if (key.equals(DAYS)) {
-                DayCalendar calendar = new DayCalendar();
-                List<String> days = calendar.convertDaysToNames(getDays());
-                return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
-            }
-            if (key.equals(LABEL)) {
-                String label = prefs.getString(key, null);
-                return TextUtils.isEmpty(label) ? "None" : label;
-            }
-            if (key.equals(SOUND)) {
-                String ringtoneUri = prefs.getString(key, null);
-                if (TextUtils.isEmpty(ringtoneUri)) {
-                    // TODO silent is not allowed
-                    return "Silent";
-                }
-                Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
-                return ringtone != null ? ringtone.getTitle(context) : "Silent";
-            }
+            Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
+            return ringtone != null ? ringtone.getTitle(context) : "Silent";
         }
         return "";
     }

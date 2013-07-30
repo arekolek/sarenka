@@ -25,11 +25,10 @@ public class AlarmEditActivity extends Activity {
 
         if (savedInstanceState == null) {
             AlarmSharedPreferences.getPreferences(this).reset();
-        }
 
-        // Display the fragment as the main content.
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment()).commit();
+            getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new SettingsFragment()).commit();
+        }
     }
 
     public static void startActivity(Context context, long alarmId) {
