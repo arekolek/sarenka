@@ -17,6 +17,7 @@ import java.util.TreeSet;
 
 public class AlarmSharedPreferences {
 
+
     public static AlarmSharedPreferences getPreferences(Context context) {
         return new AlarmSharedPreferences(context);
     }
@@ -26,6 +27,8 @@ public class AlarmSharedPreferences {
     public static final String LABEL = "alarm_label";
     public static final String SOUND = "alarm_sound";
     public static final String ENABLED = "alarm_enabled";
+    public static final String BARCODE = "alarm_barcode";
+    public static final String BARCODE_LABEL = "alarm_barcode_label";
 
     private SharedPreferences prefs;
     private Context context;
@@ -82,26 +85,28 @@ public class AlarmSharedPreferences {
     }
 
     private String getSummary(String key) {
-        if (key.equals(HOUR)) {
-            return prefs.getString(HOUR, "");
-        }
-        if (key.equals(DAYS)) {
-            DayCalendar calendar = new DayCalendar();
-            List<String> days = calendar.convertDaysToNames(getDays());
-            return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
-        }
-        if (key.equals(LABEL)) {
-            String label = prefs.getString(key, null);
-            return TextUtils.isEmpty(label) ? "None" : label;
-        }
-        if (key.equals(SOUND)) {
-            String ringtoneUri = prefs.getString(key, null);
-            if (TextUtils.isEmpty(ringtoneUri)) {
-                // TODO silent is not allowed
-                return "Silent";
+        if (!TextUtils.isEmpty(key)) {
+            if (key.equals(HOUR)) {
+                return prefs.getString(HOUR, "");
             }
-            Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
-            return ringtone != null ? ringtone.getTitle(context) : "Silent";
+            if (key.equals(DAYS)) {
+                DayCalendar calendar = new DayCalendar();
+                List<String> days = calendar.convertDaysToNames(getDays());
+                return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
+            }
+            if (key.equals(LABEL)) {
+                String label = prefs.getString(key, null);
+                return TextUtils.isEmpty(label) ? "None" : label;
+            }
+            if (key.equals(SOUND)) {
+                String ringtoneUri = prefs.getString(key, null);
+                if (TextUtils.isEmpty(ringtoneUri)) {
+                    // TODO silent is not allowed
+                    return "Silent";
+                }
+                Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
+                return ringtone != null ? ringtone.getTitle(context) : "Silent";
+            }
         }
         return "";
     }
@@ -126,6 +131,18 @@ public class AlarmSharedPreferences {
         TimeCalendar calendar = new TimeCalendar();
         editor.putString(HOUR, calendar.getTimeString(context));
         editor.putString(SOUND, "content://settings/system/alarm_alert");
-        editor.commit();
+        editor.apply();
+    }
+
+    public void setBarcode(String barcode) {
+        prefs.edit().putString(BARCODE, barcode).apply();
+    }
+
+    public String getBarcode() {
+        return prefs.getString(BARCODE, null);
+    }
+
+    public void setBarcodeLabel(String label) {
+        prefs.edit().putString(BARCODE_LABEL, label).apply();
     }
 }

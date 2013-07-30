@@ -25,4 +25,15 @@
             android:showSilent="false"
             android:title="Sound"/>
 
+    <PreferenceScreen
+            android:title="Barcode"
+            >
+
+        <intent
+                android:targetClass="com.github.arekolek.sarenka.edit.BarcodeScanner"
+                android:targetPackage="com.github.arekolek.sarenka"
+                />
+
+    </PreferenceScreen>
+
 </PreferenceScreen>

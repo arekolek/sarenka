@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.github.arekolek.sarenka.edit.EditTextPreference2
+            android:key="alarm_barcode_label"
+            android:title="Label"
+            android:dialogTitle="What is that barcode for?"
+            />
+
+    <Preference
+            android:key="alarm_barcode"
+            android:title="Barcode"
+            />
+
+</PreferenceScreen>
