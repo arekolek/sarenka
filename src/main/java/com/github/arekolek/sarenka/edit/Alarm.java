@@ -49,6 +49,8 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
     public long time;
     public String label;
     public String sound;
+    public String barcode;
+    public String barcodeHint;
 
     public Alarm(Parcel p) {
         super(getSugarContext());

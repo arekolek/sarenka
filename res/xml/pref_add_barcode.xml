@@ -3,8 +3,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.github.arekolek.sarenka.edit.EditTextPreference2
-            android:key="alarm_barcode_label"
-            android:title="Label"
+            android:key="alarm_barcode_hint"
+            android:title="Hint"
             android:dialogTitle="What is that barcode for?"
             />
 

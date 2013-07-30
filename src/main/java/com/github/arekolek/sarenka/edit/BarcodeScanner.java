@@ -43,7 +43,7 @@ public class BarcodeScanner extends Activity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null && !TextUtils.isEmpty(scanResult.getContents())) {
             prefs.setBarcode(scanResult.getContents());
-            prefs.setBarcodeLabel(null);
+            prefs.setBarcodeHint(null);
             fragment.onBarcodeSet();
         } else if (TextUtils.isEmpty(prefs.getBarcode())) {
             finish();
@@ -100,7 +100,7 @@ public class BarcodeScanner extends Activity {
         }
 
         public void onBarcodeSet() {
-            EditTextPreference2 label = (EditTextPreference2) findPreference(AlarmSharedPreferences.BARCODE_LABEL);
+            EditTextPreference2 label = (EditTextPreference2) findPreference(AlarmSharedPreferences.BARCODE_HINT);
             label.setText(null);
             label.show();
         }

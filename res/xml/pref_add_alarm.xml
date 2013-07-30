@@ -26,6 +26,7 @@
             android:title="Sound"/>
 
     <PreferenceScreen
+            android:key="alarm_barcode_screen"
             android:title="Barcode"
             >
 

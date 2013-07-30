@@ -17,7 +17,6 @@ import java.util.TreeSet;
 
 public class AlarmSharedPreferences {
 
-
     public static AlarmSharedPreferences getPreferences(Context context) {
         return new AlarmSharedPreferences(context);
     }
@@ -28,7 +27,8 @@ public class AlarmSharedPreferences {
     public static final String SOUND = "alarm_sound";
     public static final String ENABLED = "alarm_enabled";
     public static final String BARCODE = "alarm_barcode";
-    public static final String BARCODE_LABEL = "alarm_barcode_label";
+    public static final String BARCODE_HINT = "alarm_barcode_hint";
+    public static final String BARCODE_SCREEN = "alarm_barcode_screen";
 
     private SharedPreferences prefs;
     private Context context;
@@ -93,7 +93,7 @@ public class AlarmSharedPreferences {
             List<String> days = calendar.convertDaysToNames(getDays());
             return days == null || days.isEmpty() ? "Never" : TextUtils.join(", ", days);
         }
-        if (LABEL.equals(key) || BARCODE.equals(key) || BARCODE_LABEL.equals(key)) {
+        if (LABEL.equals(key) || BARCODE.equals(key) || BARCODE_HINT.equals(key)) {
             String label = prefs.getString(key, null);
             return TextUtils.isEmpty(label) ? "None" : label;
         }
@@ -105,6 +105,11 @@ public class AlarmSharedPreferences {
             }
             Ringtone ringtone = RingtoneManager.getRingtone(context, Uri.parse(ringtoneUri));
             return ringtone != null ? ringtone.getTitle(context) : "Silent";
+        }
+        if (BARCODE_SCREEN.equals(key)) {
+            String barcode = prefs.getString(BARCODE, null);
+            String hint = prefs.getString(BARCODE_HINT, null);
+            return TextUtils.isEmpty(barcode) ? "None" : TextUtils.isEmpty(hint) ? barcode : String.format("%s (%s)", hint, barcode);
         }
         return "";
     }
@@ -121,6 +126,8 @@ public class AlarmSharedPreferences {
         editor.putString(LABEL, alarm.getLabel());
         editor.putString(SOUND, alarm.getSound());
         editor.putBoolean(ENABLED, alarm.isEnabled());
+        editor.putString(BARCODE, alarm.barcode);
+        editor.putString(BARCODE_HINT, alarm.barcodeHint);
         editor.apply();
     }
 
@@ -140,7 +147,11 @@ public class AlarmSharedPreferences {
         return prefs.getString(BARCODE, null);
     }
 
-    public void setBarcodeLabel(String label) {
-        prefs.edit().putString(BARCODE_LABEL, label).apply();
+    public void setBarcodeHint(String hint) {
+        prefs.edit().putString(BARCODE_HINT, hint).apply();
+    }
+
+    public String getBarcodeHint() {
+        return prefs.getString(BARCODE_HINT, null);
     }
 }

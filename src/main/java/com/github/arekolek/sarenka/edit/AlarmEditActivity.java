@@ -108,6 +108,8 @@ public class AlarmEditActivity extends Activity {
             alarm.label = prefs.getLabel();
             alarm.sound = prefs.getSound();
             alarm.enabled = prefs.isEnabled();
+            alarm.barcode = prefs.getBarcode();
+            alarm.barcodeHint = prefs.getBarcodeHint();
 
             long time = Alarms.saveAlarm(getActivity(), alarm);
 
@@ -186,7 +188,7 @@ public class AlarmEditActivity extends Activity {
             alarmSwitcher.onResume();
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(
                     this);
-            updateRingtoneSummary();
+            updateUi();
         }
 
         private void updateSummaries() {
@@ -211,8 +213,9 @@ public class AlarmEditActivity extends Activity {
             }
         }
 
-        private void updateRingtoneSummary() {
+        private void updateUi() {
             prefs.setSummary(findPreference(AlarmSharedPreferences.SOUND));
+            prefs.setSummary(findPreference(AlarmSharedPreferences.BARCODE_SCREEN));
         }
 
     }
