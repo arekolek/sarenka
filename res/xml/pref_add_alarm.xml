@@ -13,7 +13,7 @@
             android:key="alarm_days"
             android:title="Repeat"/>
 
-    <EditTextPreference
+    <com.github.arekolek.sarenka.edit.EditTextPreference2
             android:dialogTitle="Describe this alarm"
             android:key="alarm_label"
             android:title="Label"/>
