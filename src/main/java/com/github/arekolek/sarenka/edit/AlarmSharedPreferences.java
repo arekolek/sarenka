@@ -126,8 +126,8 @@ public class AlarmSharedPreferences {
         editor.putString(LABEL, alarm.getLabel());
         editor.putString(SOUND, alarm.getSound());
         editor.putBoolean(ENABLED, alarm.isEnabled());
-        editor.putString(BARCODE, alarm.barcode);
-        editor.putString(BARCODE_HINT, alarm.barcodeHint);
+        editor.putString(BARCODE, alarm.getBarcode());
+        editor.putString(BARCODE_HINT, alarm.getBarcodeHint());
         editor.apply();
     }
 

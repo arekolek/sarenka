@@ -43,5 +43,7 @@
 
     <!-- Alarm confirmation toast: plural minutes  -->
     <string name="minutes">"%s minutes"</string>
+    <string name="barcode_hint">Scan the code for \"%1$s (%2$s)\" to disable the alarm.</string>
+    <string name="barcode_wrong">You have to scan \%1$s (%2$s)\</string>
 
 </resources>

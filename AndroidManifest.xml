@@ -60,7 +60,7 @@
                 android:name=".ring.AlarmAlertFullScreen"
                 android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize"
                 android:excludeFromRecents="true"
-                android:launchMode="singleInstance"
+                android:launchMode="singleTop"
                 android:screenOrientation="nosensor"
                 android:showOnLockScreen="true"
                 android:taskAffinity=""
