@@ -110,6 +110,9 @@ public class BarcodeScanner extends Activity {
             if (findPreference(key) != null) {
                 prefs.setSummary(findPreference(key));
             }
+            if (AlarmSharedPreferences.BARCODE_HINT.equals(key)) {
+                getActivity().finish();
+            }
         }
 
     }
