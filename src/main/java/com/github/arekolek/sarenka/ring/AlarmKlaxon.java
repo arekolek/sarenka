@@ -203,7 +203,10 @@ public class AlarmKlaxon extends Service {
         final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // do not play alarms if stream volume is 0
         // (typically because ringer mode is silent).
-        if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+        // TODO maybe I don't want this ?
+        int alarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        int systemVolume = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
+        if (alarmVolume != 0 && systemVolume != 0) {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);
             player.setLooping(true);
             player.prepare();

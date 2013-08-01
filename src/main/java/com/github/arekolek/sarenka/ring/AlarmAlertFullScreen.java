@@ -26,13 +26,6 @@ public class AlarmAlertFullScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_alert);
 
-        alarm = getIntent().getParcelableExtra(Alarms.ALARM_INTENT_EXTRA);
-        barcodeChallenge = !TextUtils.isEmpty(alarm.getBarcode());
-
-        if (barcodeChallenge) {
-            ((TextView) findViewById(R.id.hint)).setText(getString(R.string.barcode_hint, alarm.getBarcodeHint(), alarm.getBarcode()));
-        }
-
         final Window win = getWindow();
         win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -42,6 +35,20 @@ public class AlarmAlertFullScreen extends Activity {
             win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        }
+
+        onNewIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        alarm = getIntent().getParcelableExtra(Alarms.ALARM_INTENT_EXTRA);
+        barcodeChallenge = !TextUtils.isEmpty(alarm.getBarcode());
+
+        if (barcodeChallenge) {
+            ((TextView) findViewById(R.id.hint)).setText(getString(R.string.barcode_hint, alarm.getBarcodeHint(), alarm.getBarcode()));
         }
 
         ((TextView) findViewById(R.id.alertTitle)).setText(alarm.getLabelOrDefault(this));

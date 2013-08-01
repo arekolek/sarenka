@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import com.github.arekolek.sarenka.Ints;
+import com.github.arekolek.sarenka.R;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
@@ -80,7 +81,7 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
     }
 
     public String getLabelOrDefault(Context context) {
-        return TextUtils.isEmpty(label) ? "ALARMIK" : label;
+        return TextUtils.isEmpty(label) ? context.getString(R.string.alarm_default_label) : label;
     }
 
     public String getFormattedLabel() {
@@ -144,6 +145,14 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
         if (!(o instanceof Alarm)) return false;
         final Alarm other = (Alarm) o;
         return id == other.id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("id: %d, enabled: %s, hour: %d, minute: %d, " +
+                "days: %d, time: %d, label: %s, " +
+                "sound: %s, barcode: %s, hint: %s", id, String.valueOf(enabled),
+                hour, minute, days, time, label, sound, barcode, barcodeHint);
     }
 
     public String getBarcode() {

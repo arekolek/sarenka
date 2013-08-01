@@ -87,8 +87,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         Intent closeDialogs = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         context.sendBroadcast(closeDialogs);
 
-        Class c = AlarmAlertFullScreen.class;
-
         // Play the alarm alert and vibrate the device.
         Intent playAlarm = new Intent(Alarms.ALARM_ALERT_ACTION);
         playAlarm.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
@@ -109,7 +107,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Use the alarm's label or the default label main text of the notification.
         String label = alarm.getLabelOrDefault(context);
 
-        Intent alarmAlert = new Intent(context, c);
+        Intent alarmAlert = new Intent(context, AlarmAlertFullScreen.class);
         alarmAlert.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
         alarmAlert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
@@ -122,7 +120,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(false)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
-                .setFullScreenIntent(PendingIntent.getActivity(context, alarmId, alarmAlert, 0), true)
+                .setFullScreenIntent(PendingIntent.getActivity(context, alarmId,
+                        alarmAlert, PendingIntent.FLAG_UPDATE_CURRENT), true)
                 .setContentIntent(pendingNotify)
                 .setWhen(0)
                 .build();
