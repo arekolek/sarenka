@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import com.github.arekolek.sarenka.R;
+import com.github.arekolek.sarenka.ToastHelper;
 import com.github.arekolek.sarenka.edit.Alarm;
 import com.github.arekolek.sarenka.ring.Alarms;
 
@@ -84,7 +85,10 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             alarm.setEnabled(isChecked);
-            Alarms.saveAlarm(context, alarm);
+            long time = Alarms.saveAlarm(context, alarm);
+            if (alarm.isEnabled()) {
+                ToastHelper.popAlarmSetToast(context, time);
+            }
         }
     }
 }
