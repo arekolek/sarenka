@@ -18,12 +18,23 @@
             android:key="alarm_label"
             android:title="Label"/>
 
+    <CheckBoxPreference
+            android:key="alarm_random"
+            android:title="Play random music"
+            android:summaryOn="Sarenka will choose for you every day"
+            android:summaryOff="Choose an alarm to play yourself"
+            android:defaultValue="true"
+            android:disableDependentsState="true"
+            />
+
     <RingtonePreference
             android:key="alarm_sound"
             android:ringtoneType="alarm"
             android:showDefault="true"
             android:showSilent="false"
-            android:title="Sound"/>
+            android:title="Sound"
+            android:dependency="alarm_random"
+            />
 
     <PreferenceScreen
             android:key="alarm_barcode_screen"
