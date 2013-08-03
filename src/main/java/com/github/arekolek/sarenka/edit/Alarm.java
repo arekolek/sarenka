@@ -43,6 +43,7 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
         p.writeString(sound);
         p.writeString(barcode);
         p.writeString(barcodeHint);
+        p.writeInt(randomSound ? 1 : 0);
     }
 
     public boolean enabled;
@@ -69,6 +70,7 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
         sound = p.readString();
         barcode = p.readString();
         barcodeHint = p.readString();
+        randomSound = p.readInt() == 1;
     }
 
     public Alarm(Context context) {

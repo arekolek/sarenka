@@ -132,11 +132,17 @@ public class AlarmKlaxon extends Service {
         // stop() checks to see if we are already playing.
         stop();
 
-        if (Log.LOGV) {
-            Log.v("AlarmKlaxon.play() " + alarm.getId() + " alert " + alarm.getSound());
+        Uri alert;
+        if (alarm.isRandomSound()) {
+            alert = AlarmShuffler.getRandomAlarm(this);
+        } else {
+            alert = alarm.getSoundUri();
         }
 
-        Uri alert = alarm.getSoundUri();
+        if (Log.LOGV) {
+            Log.v("AlarmKlaxon.play() " + alarm.getId() + " alert " + alert);
+        }
+
         // Fall back on the default alarm if the database does not have an
         // alarm stored.
         if (alert == null) {

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import com.github.arekolek.sarenka.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +32,6 @@ public class AlarmShuffler {
     private static List<Uri> getAlarmsAndMusic(Context context) {
         List<Uri> list = getAlarmsAndMusic(context, INTERNAL_MEDIA);
         list.addAll(getAlarmsAndMusic(context, EXTERNAL_MEDIA));
-        for (Uri uri : list) {
-            Log.v("Uri: " + uri);
-        }
         return list;
     }
 
