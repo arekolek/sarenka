@@ -102,14 +102,7 @@ public class AlarmEditActivity extends Activity {
                 alarm = new Alarm(getActivity());
             }
 
-            alarm.hour = prefs.getHour();
-            alarm.minute = prefs.getMinute();
-            alarm.setDays(prefs.getDays());
-            alarm.label = prefs.getLabel();
-            alarm.sound = prefs.getSound();
-            alarm.enabled = prefs.isEnabled();
-            alarm.barcode = prefs.getBarcode();
-            alarm.barcodeHint = prefs.getBarcodeHint();
+            prefs.inflateAlarm(alarm);
 
             long time = Alarms.saveAlarm(getActivity(), alarm);
 

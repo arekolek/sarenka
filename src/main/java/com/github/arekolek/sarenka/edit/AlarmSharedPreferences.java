@@ -22,6 +22,7 @@ public class AlarmSharedPreferences {
     }
 
     public static final String HOUR = "alarm_hour";
+
     public static final String DAYS = "alarm_days";
     public static final String LABEL = "alarm_label";
     public static final String SOUND = "alarm_sound";
@@ -29,6 +30,7 @@ public class AlarmSharedPreferences {
     public static final String BARCODE = "alarm_barcode";
     public static final String BARCODE_HINT = "alarm_barcode_hint";
     public static final String BARCODE_SCREEN = "alarm_barcode_screen";
+    public static final String RANDOM_SOUND = "alarm_random_sound";
 
     private SharedPreferences prefs;
     private Context context;
@@ -114,23 +116,6 @@ public class AlarmSharedPreferences {
         return "";
     }
 
-    public void fromAlarm(Alarm alarm) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(HOUR, alarm.getFormattedTime(context));
-        Set<String> days = new TreeSet<String>();
-        Set<Integer> dayNames = alarm.getDays();
-        for (Integer day : dayNames) {
-            days.add(String.valueOf(day));
-        }
-        editor.putStringSet(DAYS, days);
-        editor.putString(LABEL, alarm.getLabel());
-        editor.putString(SOUND, alarm.getSound());
-        editor.putBoolean(ENABLED, alarm.isEnabled());
-        editor.putString(BARCODE, alarm.getBarcode());
-        editor.putString(BARCODE_HINT, alarm.getBarcodeHint());
-        editor.apply();
-    }
-
     public void reset() {
         SharedPreferences.Editor editor = prefs.edit().clear();
         TimeCalendar calendar = new TimeCalendar();
@@ -153,5 +138,39 @@ public class AlarmSharedPreferences {
 
     public String getBarcodeHint() {
         return prefs.getString(BARCODE_HINT, null);
+    }
+
+    private boolean isRandomSound() {
+        return prefs.getBoolean(RANDOM_SOUND, true);
+    }
+
+    public void inflateAlarm(Alarm alarm) {
+        alarm.hour = getHour();
+        alarm.minute = getMinute();
+        alarm.setDays(getDays());
+        alarm.label = getLabel();
+        alarm.sound = getSound();
+        alarm.enabled = isEnabled();
+        alarm.barcode = getBarcode();
+        alarm.barcodeHint = getBarcodeHint();
+        alarm.randomSound = isRandomSound();
+    }
+
+    public void fromAlarm(Alarm alarm) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(HOUR, alarm.getFormattedTime(context));
+        Set<String> days = new TreeSet<String>();
+        Set<Integer> dayNames = alarm.getDays();
+        for (Integer day : dayNames) {
+            days.add(String.valueOf(day));
+        }
+        editor.putStringSet(DAYS, days);
+        editor.putString(LABEL, alarm.getLabel());
+        editor.putString(SOUND, alarm.getSound());
+        editor.putBoolean(ENABLED, alarm.isEnabled());
+        editor.putString(BARCODE, alarm.getBarcode());
+        editor.putString(BARCODE_HINT, alarm.getBarcodeHint());
+        editor.putBoolean(RANDOM_SOUND, alarm.isRandomSound());
+        editor.apply();
     }
 }

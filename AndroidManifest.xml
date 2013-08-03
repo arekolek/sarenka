@@ -83,6 +83,13 @@
             </intent-filter>
         </service>
 
+        <meta-data
+                android:name="DATABASE"
+                android:value="sarenka.db"/>
+        <meta-data
+                android:name="VERSION"
+                android:value="2"/>
+
     </application>
 
 </manifest>

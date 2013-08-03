@@ -1,0 +1,1 @@
+alter table ALARM add column RANDOM_SOUND integer default false;

@@ -19,7 +19,7 @@
             android:title="Label"/>
 
     <CheckBoxPreference
-            android:key="alarm_random"
+            android:key="alarm_random_sound"
             android:title="Play random music"
             android:summaryOn="Sarenka will choose for you every day"
             android:summaryOff="Choose an alarm to play yourself"
@@ -33,7 +33,7 @@
             android:showDefault="true"
             android:showSilent="false"
             android:title="Sound"
-            android:dependency="alarm_random"
+            android:dependency="alarm_random_sound"
             />
 
     <PreferenceScreen

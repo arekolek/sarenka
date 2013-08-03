@@ -55,6 +55,7 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
     public String sound;
     public String barcode;
     public String barcodeHint;
+    public boolean randomSound;
 
     public Alarm(Parcel p) {
         super(getSugarContext());
@@ -162,6 +163,10 @@ public class Alarm extends SugarRecord<Alarm> implements Parcelable {
 
     public String getBarcodeHint() {
         return barcodeHint;
+    }
+
+    public boolean isRandomSound() {
+        return randomSound;
     }
 
     /*
