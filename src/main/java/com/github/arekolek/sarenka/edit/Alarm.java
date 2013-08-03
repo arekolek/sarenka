@@ -16,6 +16,7 @@ import static com.orm.SugarApp.*;
 
 public class Alarm extends SugarRecord<Alarm> implements Parcelable {
 
+    @Ignore
     public static final Parcelable.Creator<Alarm> CREATOR
             = new Parcelable.Creator<Alarm>() {
         public Alarm createFromParcel(Parcel p) {
