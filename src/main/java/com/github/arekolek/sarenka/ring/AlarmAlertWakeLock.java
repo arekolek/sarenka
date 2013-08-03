@@ -3,6 +3,7 @@ package com.github.arekolek.sarenka.ring;
 
 import android.content.Context;
 import android.os.PowerManager;
+import com.github.arekolek.sarenka.Log;
 
 /**
  * Hold a wakelock that can be acquired in the AlarmReceiver and

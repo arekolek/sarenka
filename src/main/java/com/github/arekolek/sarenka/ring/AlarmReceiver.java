@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.PowerManager;
+import com.github.arekolek.sarenka.Log;
 import com.github.arekolek.sarenka.R;
 import com.github.arekolek.sarenka.edit.Alarm;
 

@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.github.arekolek.sarenka.Log;
 import com.github.arekolek.sarenka.R;
 import com.github.arekolek.sarenka.edit.Alarm;
 import com.google.zxing.integration.android.IntentIntegrator;

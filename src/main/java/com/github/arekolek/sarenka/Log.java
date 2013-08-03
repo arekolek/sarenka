@@ -1,5 +1,5 @@
 
-package com.github.arekolek.sarenka.ring;
+package com.github.arekolek.sarenka;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +11,7 @@ public class Log {
      * This must be false for production.  If true, turns on logging,
      * test code, etc.
      */
-    static final boolean LOGV = true;
+    public static final boolean LOGV = true;
 
     public static void v(String logMe) {
         android.util.Log.v(LOGTAG, /* SystemClock.uptimeMillis() + " " + */ logMe);

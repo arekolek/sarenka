@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.provider.Settings;
 import android.text.format.DateFormat;
+import com.github.arekolek.sarenka.Log;
 import com.github.arekolek.sarenka.edit.Alarm;
 
 import java.util.Calendar;

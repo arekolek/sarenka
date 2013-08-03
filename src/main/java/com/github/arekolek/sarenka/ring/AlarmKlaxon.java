@@ -15,6 +15,7 @@ import android.os.Message;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
+import com.github.arekolek.sarenka.Log;
 import com.github.arekolek.sarenka.edit.Alarm;
 
 public class AlarmKlaxon extends Service {
