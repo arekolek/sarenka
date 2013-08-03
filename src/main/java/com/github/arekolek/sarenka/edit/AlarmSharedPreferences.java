@@ -80,7 +80,7 @@ public class AlarmSharedPreferences {
             return null;
         }
         TimeCalendar calendar = new TimeCalendar();
-        calendar.fromTimeString(pref);
+        calendar.fromTimeString(context, pref);
         return calendar;
     }
 

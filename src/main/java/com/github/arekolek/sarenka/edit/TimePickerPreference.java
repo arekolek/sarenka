@@ -47,9 +47,9 @@ public class TimePickerPreference extends DialogPreference {
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         if (restorePersistedValue) {
-            calendar.fromTimeString(getPersistedString(DEFAULT_VALUE));
+            calendar.fromTimeString(getContext(), getPersistedString(DEFAULT_VALUE));
         } else {
-            calendar.fromTimeString((String) defaultValue);
+            calendar.fromTimeString(getContext(), (String) defaultValue);
             persistString(calendar.getTimeString(getContext()));
         }
     }

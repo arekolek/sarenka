@@ -3,8 +3,11 @@ package com.github.arekolek.sarenka.edit;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import com.github.arekolek.sarenka.Log;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class TimeCalendar {
 
@@ -30,10 +33,13 @@ public class TimeCalendar {
         return DateFormat.getTimeFormat(context).format(calendar.getTime());
     }
 
-    public void fromTimeString(String time) {
-        String[] parts = time.split(":");
-        setHour(Integer.parseInt(parts[0]));
-        setMinute(Integer.parseInt(parts[1]));
+    public void fromTimeString(Context context, String time) {
+        try {
+            Date date = DateFormat.getTimeFormat(context).parse(time);
+            calendar.setTime(date);
+        } catch (ParseException e) {
+            Log.e("Error parsing time: " + time + ", " + e.getMessage());
+        }
     }
 
 }
