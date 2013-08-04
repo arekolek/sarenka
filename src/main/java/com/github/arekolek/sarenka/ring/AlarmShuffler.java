@@ -12,11 +12,13 @@ import java.util.Random;
 
 public class AlarmShuffler {
 
+    private static final long MIN_DURATION = 1000 * 2;
     private static final Uri INTERNAL_MEDIA = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
     private static final Uri EXTERNAL_MEDIA = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
     private static final String[] PROJECTION = new String[]{MediaStore.Audio.Media._ID};
-    private static final String SELECTION = MediaStore.Audio.Media.IS_ALARM + " != 0 OR "
-            + MediaStore.Audio.Media.IS_MUSIC + " != 0";
+    private static final String SELECTION = "(" + MediaStore.Audio.Media.IS_ALARM + " != 0 OR "
+            + MediaStore.Audio.Media.IS_MUSIC + " != 0) AND "
+            + MediaStore.Audio.Media.DURATION + " > " + MIN_DURATION;
 
     public static Uri getRandomAlarm(Context context) {
         List<Uri> uris = getAlarmsAndMusic(context);
