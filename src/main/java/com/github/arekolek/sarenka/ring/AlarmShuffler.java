@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.format.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 public class AlarmShuffler {
 
-    private static final long MIN_DURATION = 1000 * 2;
+    private static final long MIN_DURATION = DateUtils.SECOND_IN_MILLIS * 2;
     private static final Uri INTERNAL_MEDIA = MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
     private static final Uri EXTERNAL_MEDIA = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
     private static final String[] PROJECTION = new String[]{MediaStore.Audio.Media._ID};

@@ -18,10 +18,13 @@ import android.text.format.DateUtils;
 import com.github.arekolek.sarenka.Log;
 import com.github.arekolek.sarenka.edit.Alarm;
 
-public class AlarmKlaxon extends Service {
+import java.io.IOException;
+
+public class AlarmKlaxon extends Service implements MediaPlayer.OnErrorListener {
 
     // Default of 10 minutes until alarm is silenced.
     private static final String DEFAULT_ALARM_TIMEOUT = "10";
+    private static final int SKIP_TIMEOUT = (int) (30 * DateUtils.SECOND_IN_MILLIS);
 
     private boolean mPlaying = false;
     private MediaPlayer mMediaPlayer;
@@ -32,6 +35,7 @@ public class AlarmKlaxon extends Service {
 
     // Internal messages
     private static final int KILLER = 1000;
+    private static final int SKIPPER = 1001;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -42,6 +46,10 @@ public class AlarmKlaxon extends Service {
                     }
                     sendKillBroadcast((Alarm) msg.obj, false);
                     stopSelf();
+                    break;
+                case SKIPPER:
+                    Log.v("Alarm skip song");
+                    playNextTrack((Alarm) msg.obj);
                     break;
             }
         }
@@ -132,6 +140,48 @@ public class AlarmKlaxon extends Service {
         // stop() checks to see if we are already playing.
         stop();
 
+        try {
+            mMediaPlayer = preparePlayer(alarm);
+            startAlarm(mMediaPlayer, alarm.isRandomSound());
+        } catch (Exception ex) {
+            Log.v("Using the fallback ringtone");
+            // The alert may be on the sd card which could be busy right
+            // now. Use the fallback ringtone.
+            try {
+                // Must reset the media player to clear the error state.
+                mMediaPlayer.reset();
+                // TODO add fallback ringtone
+//                setDataSourceFromResource(getResources(), mMediaPlayer,
+//                        R.raw.fallbackring);
+//                initAlarm(mMediaPlayer, false);
+            } catch (Exception ex2) {
+                // At this point we just don't play anything.
+                Log.e("Failed to play fallback ringtone", ex2);
+            }
+        }
+
+        if (alarm.isRandomSound()) {
+            enableSkipper(alarm);
+        }
+        enableKiller(alarm);
+        mPlaying = true;
+        mStartTime = System.currentTimeMillis();
+    }
+
+    private void playNextTrack(Alarm alarm) {
+        if (Log.LOGV) Log.v("AlarmKlaxon.playNextTrack()");
+        try {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = preparePlayer(alarm);
+            startAlarm(mMediaPlayer, true);
+            enableSkipper(alarm);
+        } catch (IOException e) {
+            Log.e("Exception playing next track");
+        }
+    }
+
+    private MediaPlayer preparePlayer(Alarm alarm) throws IOException {
         Uri alert;
         if (alarm.isRandomSound()) {
             alert = AlarmShuffler.getRandomAlarm(this);
@@ -153,70 +203,39 @@ public class AlarmKlaxon extends Service {
             }
         }
 
-        // TODO: Reuse mMediaPlayer instead of creating a new one and/or use
-        // RingtoneManager.
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                Log.e("Error occurred while playing audio.");
-                mp.stop();
-                mp.release();
-                mMediaPlayer = null;
-                return true;
-            }
-        });
-
-        try {
-            // Check if we are in a call. If we are, use the in-call alarm
-            // resource at a low volume to not disrupt the call.
-            if (mTelephonyManager.getCallState()
-                    != TelephonyManager.CALL_STATE_IDLE) {
-                // TODO decide what to do
+        MediaPlayer player = new MediaPlayer();
+        player.setOnErrorListener(this);
+        // Check if we are in a call. If we are, use the in-call alarm
+        // resource at a low volume to not disrupt the call.
+        if (mTelephonyManager.getCallState()
+                != TelephonyManager.CALL_STATE_IDLE) {
+            // TODO add in call alarm resource
 //                    Log.v("Using the in-call alarm");
 //                    mMediaPlayer.setVolume(IN_CALL_VOLUME, IN_CALL_VOLUME);
 //                    setDataSourceFromResource(getResources(), mMediaPlayer,
 //                            R.raw.in_call_alarm);
-            } else {
-                mMediaPlayer.setDataSource(this, alert);
-            }
-            startAlarm(mMediaPlayer);
-        } catch (Exception ex) {
-            Log.v("Using the fallback ringtone");
-            // The alert may be on the sd card which could be busy right
-            // now. Use the fallback ringtone.
-            try {
-                // Must reset the media player to clear the error state.
-                mMediaPlayer.reset();
-                // TODO add fallback ringtone
-//                setDataSourceFromResource(getResources(), mMediaPlayer,
-//                        R.raw.fallbackring);
-                startAlarm(mMediaPlayer);
-            } catch (Exception ex2) {
-                // At this point we just don't play anything.
-                Log.e("Failed to play fallback ringtone", ex2);
-            }
+        } else {
+            player.setDataSource(this, alert);
         }
-
-        enableKiller(alarm);
-        mPlaying = true;
-        mStartTime = System.currentTimeMillis();
+        return player;
     }
 
-    // Do the common stuff when starting the alarm.
-    private void startAlarm(MediaPlayer player)
-            throws java.io.IOException, IllegalArgumentException,
-            IllegalStateException {
+    private void startAlarm(MediaPlayer player, boolean shuffle) throws IOException {
         final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // do not play alarms if stream volume is 0
         // (typically because ringer mode is silent).
-        // TODO maybe I don't want this ?
+        // TODO maybe I don't want silent alarms?
         int alarmVolume = audioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         int systemVolume = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM);
         if (alarmVolume != 0 && systemVolume != 0) {
             player.setAudioStreamType(AudioManager.STREAM_ALARM);
             player.setLooping(true);
             player.prepare();
+            int duration = player.getDuration();
+            if (shuffle && duration > 2 * SKIP_TIMEOUT) {
+                player.seekTo((duration - SKIP_TIMEOUT) / 2);
+                player.setLooping(false);
+            }
             player.start();
         }
     }
@@ -248,6 +267,7 @@ public class AlarmKlaxon extends Service {
             }
         }
         disableKiller();
+        disableSkipper();
     }
 
     /**
@@ -270,8 +290,25 @@ public class AlarmKlaxon extends Service {
         }
     }
 
+    private void enableSkipper(Alarm alarm) {
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(SKIPPER, alarm),
+                SKIP_TIMEOUT);
+    }
+
     private void disableKiller() {
         mHandler.removeMessages(KILLER);
     }
 
+    private void disableSkipper() {
+        mHandler.removeMessages(SKIPPER);
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        Log.e("Error occurred while playing audio.");
+        mp.stop();
+        mp.release();
+        mMediaPlayer = null;
+        return true;
+    }
 }
