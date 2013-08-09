@@ -130,8 +130,8 @@ public class Alarms {
         return Alarm.listAll(Alarm.class);
     }
 
-    private static List<Alarm> loadEnabledAlarms() {
-        return Alarm.find(Alarm.class, "enabled = ?", new String[]{"true"});
+    public static List<Alarm> loadEnabledAlarms() {
+        return Alarm.find(Alarm.class, "enabled = ?", "true");
     }
 
     private static void enableAlarmInternal(final long id, boolean enabled) {

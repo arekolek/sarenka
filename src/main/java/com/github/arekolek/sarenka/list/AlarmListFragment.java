@@ -20,7 +20,7 @@ public class AlarmListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         setEmptyText("Siema sarenki!");
 
-        adapter = new AlarmAdapter(getActivity(), Alarms.loadAllAlarms());
+        adapter = new AlarmAdapter(getActivity());
         setListAdapter(adapter);
     }
 

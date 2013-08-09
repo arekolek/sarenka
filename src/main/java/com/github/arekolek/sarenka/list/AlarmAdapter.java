@@ -13,14 +13,15 @@ import com.github.arekolek.sarenka.ToastHelper;
 import com.github.arekolek.sarenka.edit.Alarm;
 import com.github.arekolek.sarenka.ring.Alarms;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmAdapter extends ArrayAdapter<Alarm> {
     private final LayoutInflater inflater;
     private final Context context;
 
-    public AlarmAdapter(Context context, List<Alarm> list) {
-        super(context, R.layout.item_alarm, list);
+    public AlarmAdapter(Context context) {
+        super(context, R.layout.item_alarm, new ArrayList<Alarm>());
         this.inflater = LayoutInflater.from(context);
         this.context = context;
     }
